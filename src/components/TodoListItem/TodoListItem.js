@@ -10,14 +10,18 @@ class TodoListItem extends React.Component {
   };
 
   onLabelClick = () => {
-    this.setState({
-      done: true
+    this.setState((state) => {
+      return {
+        done: !state.done
+      }
     })
   };
 
   onImportantMark = () => {
-    this.setState({
-      important: true
+    this.setState((state) => {
+      return {
+        important: !state.important
+      }
     })
   };
 
