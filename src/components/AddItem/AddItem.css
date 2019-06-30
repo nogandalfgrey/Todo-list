@@ -1,0 +1,8 @@
+.add-item {
+    display: flex;
+    margin-top: 10px;
+}
+
+.add-item-search-panel {
+    margin-right: 5px;
+}
