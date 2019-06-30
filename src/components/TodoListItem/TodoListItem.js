@@ -27,7 +27,7 @@ class TodoListItem extends React.Component {
 
   render() {
 
-    const { data } = this.props;
+    const { data, onDeleted } = this.props;
     let classNames = 'todo-list-item-text';
 
     if (this.state.done) {
@@ -45,7 +45,10 @@ class TodoListItem extends React.Component {
           >
             { data.label }
           </span>
-          <button className='todo-list-button btn btn-outline-danger'>
+          <button
+              className='todo-list-button btn btn-outline-danger'
+              onClick={ onDeleted }
+          >
             <svg width="1em" height="1em" aria-hidden="true" focusable="false" data-prefix="far" data-icon="trash-alt"
                  className="svg-inline--fa fa-trash-alt fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 448 512">
