@@ -2,18 +2,44 @@ import React from 'react';
 
 import './AddItem.css';
 
-const AddItem = ({ addItem }) => {
-  return (
-      <div className='add-item'>
-        <input className='add-item-search-panel form-control' type='search' placeholder='todo'/>
-        <button
-            className='btn btn-outline-info'
-            onClick={ () => addItem('Hello world') }
-        >
-          Add
-        </button>
-      </div>
-  )
-};
+export default class AddItem extends React.Component {
 
-export default AddItem;
+  state = {
+    label: ''
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.addItem(this.state.label);
+    this.setState({
+      label: ''
+    })
+  };
+
+  onInputChange = (e) => {
+    this.setState({
+      label: e.target.value
+    })
+  };
+
+  render() {
+
+    return (
+        <form
+            className='add-item'
+            onSubmit={ this.onSubmit }
+        >
+          <input
+              className='add-item-search-panel form-control'
+              type='text'
+              placeholder='todo'
+              onChange={ this.onInputChange }
+              value={ this.state.label }
+          />
+          <button className='btn btn-outline-info'>
+            Add
+          </button>
+        </form>
+    )
+  }
+}

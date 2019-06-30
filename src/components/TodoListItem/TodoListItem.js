@@ -4,36 +4,15 @@ import './TodoListItem.css'
 
 class TodoListItem extends React.Component {
 
-  state = {
-    done: false,
-    important: false
-  };
-
-  onLabelClick = () => {
-    this.setState((state) => {
-      return {
-        done: !state.done
-      }
-    })
-  };
-
-  onImportantMark = () => {
-    this.setState((state) => {
-      return {
-        important: !state.important
-      }
-    })
-  };
-
   render() {
 
-    const { data, onDeleted } = this.props;
+    const { data, onDeleted, onToggleDone, onToggleImportant } = this.props;
     let classNames = 'todo-list-item-text';
 
-    if (this.state.done) {
+    if (data.done) {
       classNames += ' done';
     }
-    if (this.state.important) {
+    if (data.important) {
       classNames += ' important';
     }
 
@@ -41,7 +20,7 @@ class TodoListItem extends React.Component {
         <div className='todo-list-item-inner'>
           <span
               className={ classNames }
-              onClick={ this.onLabelClick }
+              onClick={ onToggleDone }
           >
             { data.label }
           </span>
@@ -58,7 +37,7 @@ class TodoListItem extends React.Component {
           </button>
           <button
             className='todo-list-button btn btn-outline-success'
-            onClick={ this.onImportantMark }>
+            onClick={ onToggleImportant }>
             <svg width="1em" height="1em" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation"
                  className="svg-inline--fa fa-exclamation fa-w-6" role="img" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 192 512">
