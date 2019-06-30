@@ -1,0 +1,39 @@
+.todo-list-item-inner {
+    display: flex;
+    align-items: center;
+}
+
+.todo-list-item-text {
+    margin-right: auto;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.todo-list-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5px;
+}
+
+.todo-list-button:hover path {
+    fill: white;
+
+    transition: fill .15s ease-in-out;
+    transition-property: fill;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.important {
+    color: steelblue;
+    font-weight: bold;
+}

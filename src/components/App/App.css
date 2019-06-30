@@ -1,0 +1,10 @@
+.container {
+    max-width: 560px;
+    padding-top: 30px;
+}
+
+.filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
