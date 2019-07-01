@@ -2,24 +2,24 @@ import React from 'react';
 
 import './TodoListItem.css'
 
-class TodoListItem extends React.Component {
+export default class TodoListItem extends React.Component {
 
   render() {
 
     const { data, onDeleted, onToggleDone, onToggleImportant } = this.props;
-    let classNames = 'todo-list-item-text';
+    let textClasses = 'todo-list-item-text';
 
     if (data.done) {
-      classNames += ' done';
+      textClasses += ' done';
     }
     if (data.important) {
-      classNames += ' important';
+      textClasses += ' important';
     }
 
     return (
         <div className='todo-list-item-inner'>
           <span
-              className={ classNames }
+              className={ textClasses }
               onClick={ onToggleDone }
           >
             { data.label }
@@ -49,5 +49,3 @@ class TodoListItem extends React.Component {
     )
   }
 }
-
-export default TodoListItem;

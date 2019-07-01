@@ -14,9 +14,9 @@ export default class App extends React.Component {
 
   state = {
     todoData: [
-      { label: 'Drink Coffee', important: false, done: false, id: 1 },
-      { label: 'Make Awesome App', important: true, done: false, id: 2 },
-      { label: 'Have a lunch', important: false, done: false, id: 3 }
+      { label: 'Показывается при добавлении', important: false, done: false, id: 1, visible: true },
+      { label: 'Поиск подстрокой', important: true, done: false, id: 2, visible: true },
+      { label: 'Коммиты', important: false, done: false, id: 3, visible: true }
     ]
   };
 
@@ -38,7 +38,7 @@ export default class App extends React.Component {
   addItem = (text) => {
     this.setState(({ todoData }) => {
       const newData =
-          { label: text, important: false, done: false, id: this.maxId++ };
+          { label: text, important: false, done: false, id: this.maxId++, visible: true };
 
       const newArray = [
         ...todoData,
@@ -80,8 +80,24 @@ export default class App extends React.Component {
     })
   };
 
+  visibilityChange = (status, idx) => {
+    this.setState(({ todoData }) => {
+      const oldData = todoData[idx];
+      const newData = { ...oldData, visible: status };
+
+      return {
+        todoData: [
+          ...todoData.slice(0, idx),
+          newData,
+          ...todoData.slice(idx + 1)
+        ]
+      }
+    });
+  };
+
   render() {
     const { todoData } = this.state;
+
     const todo = todoData.filter((el) => el.done === false).length;
     const done = todoData.length - todo;
 
@@ -92,7 +108,10 @@ export default class App extends React.Component {
             done={ done }
           />
           <div className='filter-wrapper'>
-            <SearchPanel/>
+            <SearchPanel
+                todoData={ todoData }
+                visibilityChange={ (status, idx) => this.visibilityChange(status, idx) }
+            />
             <ItemStatusFilter/>
           </div>
           <TodoList
