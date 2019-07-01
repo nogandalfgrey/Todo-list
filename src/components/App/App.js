@@ -14,10 +14,12 @@ export default class App extends React.Component {
 
   state = {
     todoData: [
-      { label: 'Показывается при добавлении', important: false, done: false, id: 1, visible: true },
-      { label: 'Поиск подстрокой', important: true, done: false, id: 2, visible: true },
-      { label: 'Коммиты', important: false, done: false, id: 3, visible: true }
-    ]
+      { label: 'Показывается при добавлении', important: false, done: false, id: 1 },
+      { label: 'Поиск подстрокой', important: true, done: false, id: 2 },
+      { label: 'Коммиты', important: false, done: false, id: 3 }
+    ],
+    term: '',
+    filter: 'All'
   };
 
   deleteItem = (id) => {
@@ -38,7 +40,7 @@ export default class App extends React.Component {
   addItem = (text) => {
     this.setState(({ todoData }) => {
       const newData =
-          { label: text, important: false, done: false, id: this.maxId++, visible: true };
+          { label: text, important: false, done: false, id: this.maxId++ };
 
       const newArray = [
         ...todoData,
@@ -80,23 +82,39 @@ export default class App extends React.Component {
     })
   };
 
-  visibilityChange = (status, idx) => {
-    this.setState(({ todoData }) => {
-      const oldData = todoData[idx];
-      const newData = { ...oldData, visible: status };
+  setTerm = (term) => {
+    this.setState({ term });
+  };
 
-      return {
-        todoData: [
-          ...todoData.slice(0, idx),
-          newData,
-          ...todoData.slice(idx + 1)
-        ]
+  search = (items, term) => {
+    if(this.state.term === '') {
+      return items;
+    }
+    return items.filter((item) => {
+      return item.label.toLowerCase().indexOf(this.state.term.toLowerCase()) !== -1;
+    })
+  };
+
+  setFilter = (filter) => {
+    this.setState({ filter });
+  };
+
+  statusFilter = (items, filter) => {
+    switch (filter) {
+      case 'All': return items;
+      case 'Done': return items.filter((item) => item.done);
+      case 'Active': return items.filter((item) => !item.done);
+      default: {
+        console.error('Wrong filter property');
+        return items;
       }
-    });
+    }
   };
 
   render() {
     const { todoData } = this.state;
+    const visibleItems = this.search(todoData, this.state.term);
+    const filteredItems = this.statusFilter(visibleItems, this.state.filter);
 
     const todo = todoData.filter((el) => el.done === false).length;
     const done = todoData.length - todo;
@@ -108,14 +126,11 @@ export default class App extends React.Component {
             done={ done }
           />
           <div className='filter-wrapper'>
-            <SearchPanel
-                todoData={ todoData }
-                visibilityChange={ (status, idx) => this.visibilityChange(status, idx) }
-            />
-            <ItemStatusFilter/>
+            <SearchPanel setTerm={ (term) => this.setTerm(term) }/>
+            <ItemStatusFilter setFilter={ (filter) => this.setFilter(filter) }/>
           </div>
           <TodoList
-            todos={ todoData }
+            todos={ filteredItems }
             onDeleted={ (id) => this.deleteItem(id) }
             onToggleDone={ (id) => this.onToggleDone(id) }
             onToggleImportant={ (id) => this.onToggleImportant(id) }

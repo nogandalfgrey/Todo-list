@@ -9,18 +9,8 @@ const TodoList = ({ todos, onDeleted, onToggleDone,
   const items = todos.map((item) => {
     const { id, ...data } = item;
 
-
-    let itemClasses = 'todo-list-item list-group-item';
-
-    if (data.visible) {
-      itemClasses += ' visible'
-    }
-    else {
-      itemClasses += ' invisible'
-    }
-
     return (
-      <li className={ itemClasses } key={ id }>
+      <li className='todo-list-item list-group-item' key={ id }>
         <TodoListItem
             data={ data }
             onDeleted={ () => {onDeleted(id)} }
